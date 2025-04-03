@@ -1,97 +1,30 @@
-.custom-jumbotron {
-  background-image: url('https://1gr.cz/fotky/idnes/19/052/cl5/RMP7b3dc5_MGO63_HOCKEY_WORLD_0510_11_1.JPG');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  text-align: center;
-  padding: 40px 20px;
-  font-family: Arial, sans-serif;
+.cursor {
+  font-size: 12px;
+  height: 1.5em;
+  width: 10px;
+  display: inline-block;
+  background-color: blue;
+  animation: blink 1s linear infinite;
+  vertical-align: bottom; /* Align the cursor with the text */
 }
 
-.custom-jumbotron h1 {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  line-height: 1.2;
-  background-color: rgba(52,58,64,0.7);
+.input-text {
+  display: inline-block;
+  white-space: nowrap; /* Prevent line breaks in the input text */
 }
 
-.custom-jumbotron p {
-  font-size: 1.25rem;
-  text-indent: 20px;
-  background-color: rgba(52,58,64,0.7);
-}
-
-.custom-jumbotron:hover {
-  background-color: #5a6268;
-  cursor: pointer;
-}
-
-.custom-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.custom-table th, .custom-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.custom-table th {
-  background-color: #343a40;
-  color: white;
-}
-
-.custom-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.container > main {
-  margin: 20px;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-.custom-table {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-}
-
-.custom-table:hover {
-  opacity: 0.9;
-}
-
-footer {
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .custom-jumbotron h1 {
-    font-size: 2.5rem;
-  }
-
-  .custom-jumbotron p {
-    font-size: 1rem;
+@keyframes blink {
+  50% {
+      opacity: 0;
   }
 }
 
-@media (max-width: 576px) {
-  .custom-jumbotron h1 {
-    font-size: 2rem;
-  }
+textarea {
+  left: -1000px;
+  position: fixed;
+}
 
-  .custom-jumbotron p {
-    font-size: 0.9rem;
-  }
-
-  .custom-table {
-    font-size: 0.85rem;
-  }
+.input-div {
+  position: relative;
+  display: inline-block;
 }
