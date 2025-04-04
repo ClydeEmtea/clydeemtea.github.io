@@ -66,7 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     
-        inputDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        const footer = document.getElementById('footer');
+        footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
     
 
@@ -143,7 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 p.appendChild(cmdSpan);
                 p.appendChild(document.createTextNode(`\r\n     - ${value}\r\n`));
-    
+                
+                const footer = document.getElementById('footer');
+                footer.scrollIntoView({ behavior: 'smooth', block: 'end' });    
+                
                 index++;
             } else {
                 clearInterval(interval);
@@ -161,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         outputDiv.appendChild(p);
         container.appendChild(outputDiv);
     }
-
+    
     function printOutputs(texts) {
         const outputDiv = document.createElement('div');
         outputDiv.classList.add('output');
@@ -170,18 +174,18 @@ document.addEventListener('DOMContentLoaded', () => {
         p.setAttribute('style', 'white-space: pre-wrap;'); // použij 'pre-wrap' pro lepší zalomení
         outputDiv.appendChild(p);
         container.appendChild(outputDiv);
-    
+        
         let index = 0;
         const interval = setInterval(() => {
             if (index < texts.length) {
                 const line = texts[index];
                 const words = line.split(/(\s+)/); // zachová mezery jako samostatné prvky
-    
+                
                 words.forEach(word => {
                     // Ověření, zda je slovo v uvozovkách ('' nebo "")
                     if (word.startsWith("'") && word.endsWith("'")) {
                         const commandWord = word.slice(1, -1); // odstraní uvozovky
-    
+                        
                         if (help.hasOwnProperty(commandWord)) {
                             const cmdSpan = document.createElement('span');
                             cmdSpan.classList.add('command');
@@ -194,7 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         p.appendChild(document.createTextNode(word)); // přidá obyčejný text
                     }
                 });
-    
+                
+                const footer = document.getElementById('footer');
+                footer.scrollIntoView({ behavior: 'smooth', block: 'end' });    
                 p.appendChild(document.createTextNode('\r\n'));
                 index++;
             } else {
@@ -209,13 +215,15 @@ document.addEventListener('DOMContentLoaded', () => {
         outputDiv.classList.add('output');
         const p = document.createElement('p');
         p.setAttribute('style', 'white-space: pre;');
-
+        
         
         texts.forEach(text => {
             const a = document.createElement('a');
             a.setAttribute('href', text);
             a.textContent += text + '\r\n';
             p.appendChild(a);
+            const footer = document.getElementById('footer');
+            footer.scrollIntoView({ behavior: 'smooth', block: 'end' });    
  
         });
         outputDiv.appendChild(p);
