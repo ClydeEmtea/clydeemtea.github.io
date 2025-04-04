@@ -1,16 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #1b182c;
+  color: #cbe3e7;
+}
+
+a {
+  color: #91ddff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.prefix {
+  color: #95ffa4;
+}
+
+.command {
+  color: #c991e1;
+}
+
 .cursor {
   font-size: 12px;
   height: 1.5em;
   width: 10px;
   display: inline-block;
-  background-color: blue;
+  background-color: #cbe3e7;
   animation: blink 1s linear infinite;
-  vertical-align: bottom; /* Align the cursor with the text */
+  vertical-align: bottom;
 }
 
 .input-text {
   display: inline-block;
-  white-space: nowrap; /* Prevent line breaks in the input text */
+  white-space: nowrap;
+  white-space: pre-wrap;
 }
 
 @keyframes blink {

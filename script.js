@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    command('banner');
     
-    createInputDiv();
     
     textarea.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             textarea.value = '';
             textarea.focus();
             
-            createInputDiv();
             
         }
     });
@@ -32,26 +31,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputDiv = document.createElement('div');
         inputDiv.classList.add('input-div');
         container.appendChild(inputDiv);
-        
+    
         const input_text = document.createElement('span');
-        input_text.textContent = prefix;
         input_text.classList.add('input-text');
         inputDiv.appendChild(input_text);
-        
+    
+        const prefixSpan = document.createElement('span');
+        prefixSpan.classList.add('prefix');
+        prefixSpan.textContent = prefix;
+        input_text.appendChild(prefixSpan);
+    
+        const textSpan = document.createTextNode('');
+        input_text.appendChild(textSpan);
+    
         const cursor = document.createElement('span');
         cursor.classList.add('cursor');
         cursor.textContent = ' ';
         inputDiv.appendChild(cursor);
-
-
+    
         const updateInputDiv = () => {
-            input_text.textContent = prefix + textarea.value;
-            
+            textSpan.textContent = textarea.value;
             inputDiv.appendChild(cursor);
         };
-
+    
         textarea.addEventListener('input', updateInputDiv);
-
+    
         textarea.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 textarea.removeEventListener('input', updateInputDiv);
@@ -59,50 +63,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (inputDiv.contains(cursor)) {
                     inputDiv.removeChild(cursor);
                 }
-
             }
         });
+    
         inputDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
+    
 
     function command(cmd) {
         let command = cmd.split(' ')[0];
         switch(command.toLowerCase()) {
             case 'clear':
                 clearTerminal();
-                return "Terminal cleared.";
+                return createInputDiv();
             case 'help':
                 printHelp();
-                return "Available commands listed.";
+                return setTimeout(() => createInputDiv(), Object.keys(help).length * delay);
             case 'username':
                 let name = cmd.split(' ').slice(1).join(' ');
                 if (name.length === 0 || name.length > 20 || cmd.split(' ').length > 2) {
                     printOutput(invalid + name + params);
-                    return `Invalid username: ${name}`;
+                        return createInputDiv();
                 } else {
                     changeUsername(name);
                 }
 
-                return `Username set to ${guest_name}`;
-            case 'whoami':
-                printOutput(`You are ${guest_name}.`);
-                return `You are ${guest_name}.`;
-            case 'whois':
-                printOutputs(whois);
-                return "Information about the creator displayed.";
-            case 'contact':
-                printOutputs(contact);
-                return "Contact information displayed.";
-            case 'github':
+                    return createInputDiv();
+                case 'whoami':
+                    printOutput(`You are ${guest_name}.`);
+                    return createInputDiv();
+                case 'whois':
+                    printOutputs(whois);
+                    return setTimeout(() => createInputDiv(), whois.length * delay);
+                case 'contact':
+                    printOutputs(contact);
+                    return setTimeout(() => createInputDiv(), contact.length * delay);
+                case 'github':
                 printLinks(github);
-                return "GitHub profile link displayed.";
-            case '':
-                printOutput('');
-                return "No command entered.";
-            default:
-                printOutput(not + cmd + found);
-                return `Command not found: ${cmd}`;
-    
+                    return setTimeout(() => createInputDiv(), github.length * delay);
+                case 'banner':
+                    printOutputs(banner);
+                    return setTimeout(() => createInputDiv(), banner.length * delay);
+                case '':
+                    printOutput('');
+                    return createInputDiv();
+                default:
+                    printOutput(not + cmd + found);
+                    return createInputDiv();
+                
         }
     }
     
@@ -116,22 +124,33 @@ document.addEventListener('DOMContentLoaded', () => {
     function printHelp() {
         const outputDiv = document.createElement('div');
         outputDiv.classList.add('output');
-        
-        Object.entries(help).forEach(([key, value]) => {
-            const p = document.createElement('p');
-            p.setAttribute('style', 'white-space: pre;');
-            const cmd = document.createElement('span');
-            cmd.classList.add('command');
-            cmd.textContent = key;
-            p.appendChild(cmd);
-            p.textContent += `\r\n     - ${value}`;
-            
- 
-            outputDiv.appendChild(p);
-        });
     
+        const p = document.createElement('p');
+        p.setAttribute('style', 'white-space: pre;');
+        outputDiv.appendChild(p);
         container.appendChild(outputDiv);
+    
+        const entries = Object.entries(help);
+        let index = 0;
+    
+        const interval = setInterval(() => {
+            if (index < entries.length) {
+                const [key, value] = entries[index];
+    
+                const cmdSpan = document.createElement('span');
+                cmdSpan.classList.add('command');
+                cmdSpan.textContent = key;
+    
+                p.appendChild(cmdSpan);
+                p.appendChild(document.createTextNode(`\r\n     - ${value}\r\n`));
+    
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+        }, delay);
     }
+    
     
     function printOutput(text) {
         const outputDiv = document.createElement('div');
@@ -146,17 +165,45 @@ document.addEventListener('DOMContentLoaded', () => {
     function printOutputs(texts) {
         const outputDiv = document.createElement('div');
         outputDiv.classList.add('output');
-        const p = document.createElement('p');
-        p.setAttribute('style', 'white-space: pre;');
         
-        texts.forEach(text => {
-            p.textContent += text + '\r\n';
- 
-        });
+        const p = document.createElement('p');
+        p.setAttribute('style', 'white-space: pre-wrap;'); // použij 'pre-wrap' pro lepší zalomení
         outputDiv.appendChild(p);
-    
         container.appendChild(outputDiv);
+    
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index < texts.length) {
+                const line = texts[index];
+                const words = line.split(/(\s+)/); // zachová mezery jako samostatné prvky
+    
+                words.forEach(word => {
+                    // Ověření, zda je slovo v uvozovkách ('' nebo "")
+                    if (word.startsWith("'") && word.endsWith("'")) {
+                        const commandWord = word.slice(1, -1); // odstraní uvozovky
+    
+                        if (help.hasOwnProperty(commandWord)) {
+                            const cmdSpan = document.createElement('span');
+                            cmdSpan.classList.add('command');
+                            cmdSpan.textContent = `'${commandWord}'`; // přidá zpět uvozovky
+                            p.appendChild(cmdSpan);
+                        } else {
+                            p.appendChild(document.createTextNode(word)); // pokud není v help, zobrazí to jako text
+                        }
+                    } else {
+                        p.appendChild(document.createTextNode(word)); // přidá obyčejný text
+                    }
+                });
+    
+                p.appendChild(document.createTextNode('\r\n'));
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+        }, delay);
     }
+    
+    
     function printLinks(texts) {
         const outputDiv = document.createElement('div');
         outputDiv.classList.add('output');

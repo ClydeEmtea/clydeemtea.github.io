@@ -4,7 +4,10 @@ const found = ": command not found...";
 const invalid = ": invalid parameters: ";
 const params = " parameters not allowed...";
 
+const delay = 100;
+
 const help = {
+    banner: "Displays the banner.",
     help: "Lists all available commands.",
     whoami: "Displays information about you.",
     username: "Takes parameter: username. Sets your username.",
@@ -30,3 +33,18 @@ const contact = [
 const github = [
     "https://github.com/clydeemtea",
 ]
+
+const banner = [
+    " ____       ___                   __              ____                    __                        ",
+    "/\\  _`\\    /\\_ \\                 /\\ \\            /\\  _`\\                 /\\ \\__                     ",
+    "\\ \\ \\/\\_\\  \\\\/\\ \\     __  __     \\_\\ \\      __   \\ \\ \\L\\_\\    ___ ___    \\ \\ ,_\\     __      __     ",
+    " \\ \\ \\/_/_   \\ \\ \\   /\\ \\/\\ \\    /'_` \\   /'__`\\  \\ \\  _\\L  /' __` __`\\   \\ \\ \\/   /'__`\\  /'__`\\   ",
+    "  \\ \\ \\L\\ \\   \\_\\ \\_ \\ \\ \\_\\ \\  /\\ \\L\\ \\ /\\  __/   \\ \\ \\L\\ \\/\\ \\/\\ \\/\\ \\   \\ \\ \\_ /\\  __/ /\\ \\L\\.\\_ ",
+    "   \\ \\____/   /\\____\\ \\/`____ \\ \\ \\___,_\\\\ \\____\\   \\ \\____/\\ \\_\\ \\_\\ \\_\\   \\ \\__\\\\ \\____\\\\ \\__/\\.\\_\\",
+    "    \\/___/    \\/____/  `/___/> \\ \\/__,_ / \\/____/    \\/___/  \\/_/\\/_/\\/_/    \\/__/ \\/____/ \\/__/\\/_/",
+    "                          /\\___/                                                                 ",
+    "                          \\/__/                                                                  ",
+    "",
+    "Welcome to my personal website!",
+    "Use 'help' to see available commands.",
+];
